@@ -1,10 +1,11 @@
-package ru.yandex.practicum.steps;
+package ru.yandex.prakticum.steps;
 
 import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
-import ru.yandex.practicum.dto.CreateUserRequest;
-import ru.yandex.practicum.dto.LoginUserRequest;
+import ru.yandex.prakticum.dto.CreateUserRequest;
+import ru.yandex.prakticum.dto.LoginUserRequest;
+
 import static io.restassured.RestAssured.given;
 
 public class UserSteps {
@@ -34,10 +35,12 @@ private String userInfoHandle = "/api/auth/user";
                 .then();
     }
 
+    @Step("Оправляем запрос на Api запрос POST /api/auth/register для создания пользователя и получаем ответ")
     public ValidatableResponse createUser(String email, String password, String name) {
         CreateUserRequest createUserRequestBody = createUserRequestBody(email, password, name);
         return postCreateUserRequest(baseUrl, createUserRequestBody, createUserHandle);
     }
+
 
     @Step("Формируем json тело для запроса POST /api/auth/login для логина пользователя")
     public LoginUserRequest loginUserRequestBody(String email, String password){
@@ -57,11 +60,12 @@ private String userInfoHandle = "/api/auth/user";
                 .post(loginUserHandle)
                 .then();
     }
-
+    @Step("Оправляем запрос на Api запрос POST /api/auth/login для логина пользователя и получаем ответ")
     public ValidatableResponse loginUser(String email, String password){
         LoginUserRequest loginUserRequestBody = loginUserRequestBody(email, password);
         return postLoginUserRequest(baseUrl, loginUserRequestBody, loginUserHandle);
     }
+
 
     @Step("Отправляем Api запрос DELETE /api/auth/user для удаления пользователя")
     public  ValidatableResponse deleteDeleteUserRequest(String accessToken){
@@ -76,45 +80,10 @@ private String userInfoHandle = "/api/auth/user";
                 .then();
     }
 
+    @Step("Отправляем Api запрос DELETE /api/auth/user для удаления пользователя и получаем ответ")
     public ValidatableResponse deleteUser(String accessToken){
         return deleteDeleteUserRequest(accessToken);
     }
 
-    @Step("Оправляем Api запрос PATCH /api/auth/user для обновления имени в информации о пользователе")
-    public ValidatableResponse patchUserInfoNameRequest(String accessToken, String name) {
-        var requestSpec = given()
-                .contentType(ContentType.JSON)
-                .baseUri(baseUrl)
-                .body("{\n" + "\"name\": \"" + name + "\"\n" + "}");
-        if (accessToken != null) {
-            requestSpec.header("Authorization", accessToken);
-        }
-        return requestSpec
-                .when()
-                .patch(userInfoHandle)
-                .then();
-    }
 
-    public ValidatableResponse patchUserName(String accessToken, String name) throws IllegalArgumentException{
-        return patchUserInfoNameRequest(accessToken, name);
-    }
-
-    @Step("Оправляем Api запрос PATCH /api/auth/user для обновления имени в информации о пользователе")
-    public ValidatableResponse patchUserInfoEmailRequest(String accessToken, String email) {
-        var requestSpec = given()
-                .contentType(ContentType.JSON)
-                .baseUri(baseUrl)
-                .body("{\n" + "\"email\": \"" + email + "\"\n" + "}");
-        if (accessToken != null) {
-            requestSpec.header("Authorization", accessToken);
-        }
-        return requestSpec
-                .when()
-                .patch(userInfoHandle)
-                .then();
-    }
-
-    public ValidatableResponse patchUserEmail(String accessToken, String email) throws IllegalArgumentException{
-        return patchUserInfoEmailRequest(accessToken, email);
-    }
 }

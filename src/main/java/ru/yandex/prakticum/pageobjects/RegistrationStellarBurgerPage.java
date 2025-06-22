@@ -1,4 +1,4 @@
-package ru.yandex.prakticum;
+package ru.yandex.prakticum.pageobjects;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -33,6 +33,8 @@ public class RegistrationStellarBurgerPage {
     private By alreadyRegLoginButton = By.className("Auth_link__1fOlj");
     //Логотип Stellar Burger
     private By logoStellarBurger = By.className("AppHeader_header__logo__2D0X2");
+    //Кнопка Конструктор
+    private By constructorButton = By.xpath(".//*[@class = 'AppHeader_header__list__3oKJj']//*[contains(text(), 'Конструктор')]");
     //Заголовок Регистрация
     private By registrationHeader = By.xpath(".//div[@class = 'Auth_login__3hAey']/h2[contains(text(), 'Регистрация')]");
 
@@ -52,6 +54,12 @@ public class RegistrationStellarBurgerPage {
     public void clickLogoStellarBurger(){
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.presenceOfElementLocated(logoStellarBurger));
         driver.findElement(logoStellarBurger).click();
+    }
+
+    @Step("Нажатие на кнопку Конструктор на странице регистрации")
+    public void clickConstructorButton() {
+        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(constructorButton));
+        driver.findElement(constructorButton).click();
     }
 
     @Step("Ввод в строку имя на странице регистрации")

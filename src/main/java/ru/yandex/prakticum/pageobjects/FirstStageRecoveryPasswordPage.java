@@ -1,9 +1,8 @@
-package ru.yandex.prakticum;
+package ru.yandex.prakticum.pageobjects;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -23,6 +22,8 @@ public class FirstStageRecoveryPasswordPage {
     private By rememberLoginButton = By.className("Auth_link__1fOlj");
     //логотип Stellar Burger
     private By logoStellarBurger = By.className("AppHeader_header__logo__2D0X2");
+    //Кнопка Конструктор
+    private By constructorButton = By.xpath(".//*[@class = 'AppHeader_header__list__3oKJj']//*[contains(text(), 'Конструктор')]");
     //Строка ввода email
     private By emailInput = By.className("input__textfield");
     //Кнопка Восстановить
@@ -36,6 +37,11 @@ public class FirstStageRecoveryPasswordPage {
         return driver.findElement(firstStageRecoveryHeader).getText().contains("Восстановление пароля");
     }
 
+    @Step("Нажатие на кнопку Конструктор на странице первого этапа восстановления пароля")
+    public void clickConstructorButton(){
+        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(constructorButton));
+        driver.findElement(constructorButton).click();
+    }
 
     @Step("Нажатие на кнопку Личный кабинет на странице первого этапа восстановления пароля")
     public void clickPersonalAccountButton(){

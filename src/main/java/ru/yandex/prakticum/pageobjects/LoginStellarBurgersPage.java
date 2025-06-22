@@ -1,4 +1,4 @@
-package ru.yandex.prakticum;
+package ru.yandex.prakticum.pageobjects;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
@@ -25,6 +25,8 @@ public class LoginStellarBurgersPage {
     private By loginButton = By.className("button_button__33qZ0");
     //Логотип Stellar burger
     private By logoStellarBurger = By.className("AppHeader_header__logo__2D0X2");
+    //Кнопка Конструктор
+    private By constructorButton = By.xpath(".//*[@class = 'AppHeader_header__list__3oKJj']//*[contains(text(), 'Конструктор')]");
     //Кнопка зарегистрироваться
     private By registerButton = By.xpath(".//div/p[@class= 'undefined text text_type_main-default text_color_inactive mb-4']/a[contains(text(), 'Зарегистрироваться')]");
     //Кнопка восстановить пароль
@@ -36,6 +38,12 @@ public class LoginStellarBurgersPage {
     public void clickPersonalAccountButton(){
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(personalAccountButton));
         driver.findElement(personalAccountButton).click();
+    }
+
+    @Step("Нажатие на кнопку Конструктор на странице авторизации")
+    public void clickConstructorButton() {
+        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(constructorButton));
+        driver.findElement(constructorButton).click();
     }
 
     @Step("Нажатие на лого Stellar Burger на странице авторизации")
@@ -50,23 +58,10 @@ public class LoginStellarBurgersPage {
         driver.findElement(emailInput).sendKeys(email);
     }
 
-    @Step("Нажатие на строку email на странице авторизации")
-    public void clickEmailInput(){
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(emailInput));
-        driver.findElement(emailInput).click();
-    }
-
-
     @Step("Ввод в строку password на странице авторизации")
     public void setPasswordInput(String password){
         new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(passwordInput));
         driver.findElement(passwordInput).sendKeys(password);
-    }
-
-    @Step("Нажатие на строку password на странице авторизации")
-    public void clickPasswordInput(){
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(passwordInput));
-        driver.findElement(passwordInput).click();
     }
 
     @Step("Нажатие на кнопку войти в систему на странице авторизации")
@@ -81,18 +76,11 @@ public class LoginStellarBurgersPage {
         driver.findElement(registerButton).click();
     }
 
-
     @Step("Вход в систему на странице авторизации")
-    public void loginPersonalAccount(String email, String password) throws InterruptedException {
+    public void loginPersonalAccount(String email, String password) {
         setEmailInput(email);
         setPasswordInput(password);
         clickLoginButton();
-    }
-
-    @Step("Проверка наличия кнопки войти на странице авторизации")
-    public boolean checkLoginButtonIsAvailable(){
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(loginButton));
-        return driver.findElement(loginButton).getText().contains("Войти");
     }
 
     @Step("Нажатие на кнопку Восстановить пароль на странице авторизации")
@@ -106,7 +94,5 @@ public class LoginStellarBurgersPage {
         new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOfElementLocated(loginHeaderText));
         return driver.findElement(loginHeaderText).getText().contains("Вход");
     }
-
-
 
 }
