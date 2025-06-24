@@ -12,12 +12,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import ru.yandex.prakticum.pageobjects.*;
+import ru.yandex.prakticum.steps.RequestSpec;
 import ru.yandex.prakticum.steps.UserSteps;
 
 @RunWith(Parameterized.class)
 public class LogoButtonTest {
 
-    private String baseUrl = "https://stellarburgers.nomoreparties.site";
     private String email;
     private String password;
     private String name;
@@ -78,7 +78,7 @@ public class LogoButtonTest {
 
     @Step("Открываем браузер и домашнюю страницу Stellar Burger")
     public void openingBrowser(){
-        driver.get(baseUrl);
+        driver.get(StellarBurgerPageConfig.getBaseUrl());
     }
 
     @Step("Переход с главной страницы Stellar Burger в окно личного кабинета пользователя ")

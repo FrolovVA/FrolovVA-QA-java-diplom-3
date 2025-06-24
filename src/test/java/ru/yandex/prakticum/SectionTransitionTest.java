@@ -8,11 +8,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import ru.yandex.prakticum.pageobjects.*;
+import ru.yandex.prakticum.steps.RequestSpec;
+
 import java.time.Duration;
 
 public class SectionTransitionTest {
 
-    private String baseUrl = "https://stellarburgers.nomoreparties.site";
     private WebDriver driver;
     private MainStellarBurgersPage mainStellarBurgersPage;
     private DriverFactory driverFactory = new DriverFactory();
@@ -28,7 +29,7 @@ public class SectionTransitionTest {
 
     @Step("Открываем браузер и домашнюю страницу Stellar Burger")
     public void openingBrowser(){
-        driver.get(baseUrl);
+        driver.get(StellarBurgerPageConfig.getBaseUrl());
     }
 
     @Step("Проверка что открылась главная страница Stellar Burger")

@@ -15,7 +15,6 @@ import ru.yandex.prakticum.steps.UserSteps;
 @RunWith(Parameterized.class)
 public class LoginTest {
 
-    private String baseUrl = "https://stellarburgers.nomoreparties.site";
     private String email;
     private String password;
     private String name;
@@ -79,7 +78,7 @@ public class LoginTest {
 
     @Step("Открываем браузер и домашнюю страницу Stellar Burger")
     public void openingBrowser(){
-        driver.get(baseUrl);
+        driver.get(StellarBurgerPageConfig.getBaseUrl());
     }
 
     @Step("Переход с главной страницы Stellar Burger в окно личного кабинета пользователя ")

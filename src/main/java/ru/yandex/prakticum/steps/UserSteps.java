@@ -1,7 +1,6 @@
 package ru.yandex.prakticum.steps;
 
 import io.qameta.allure.Step;
-import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import ru.yandex.prakticum.dto.CreateUserRequest;
 import ru.yandex.prakticum.dto.LoginUserRequest;
@@ -10,7 +9,6 @@ import static io.restassured.RestAssured.given;
 
 public class UserSteps {
 
-private String baseUrl = "https://stellarburgers.nomoreparties.site/";
 private String createUserHandle = "api/auth/register";
 private String loginUserHandle = "/api/auth/login";
 private String userInfoHandle = "/api/auth/user";
@@ -25,10 +23,9 @@ private String userInfoHandle = "/api/auth/user";
     }
 
     @Step("Отравляем Api запрос POST /api/auth/register для создания пользователя")
-    public ValidatableResponse postCreateUserRequest(String baseUrl, CreateUserRequest createUserRequestBody, String createUserHandle){
+    public ValidatableResponse postCreateUserRequest(CreateUserRequest createUserRequestBody, String createUserHandle){
         return given()
-                .contentType(ContentType.JSON)
-                .baseUri(baseUrl)
+                .spec(RequestSpec.baseSpec())
                 .body(createUserRequestBody)
                 .when()
                 .post(createUserHandle)
@@ -38,7 +35,7 @@ private String userInfoHandle = "/api/auth/user";
     @Step("Оправляем запрос на Api запрос POST /api/auth/register для создания пользователя и получаем ответ")
     public ValidatableResponse createUser(String email, String password, String name) {
         CreateUserRequest createUserRequestBody = createUserRequestBody(email, password, name);
-        return postCreateUserRequest(baseUrl, createUserRequestBody, createUserHandle);
+        return postCreateUserRequest(createUserRequestBody, createUserHandle);
     }
 
 
@@ -51,10 +48,9 @@ private String userInfoHandle = "/api/auth/user";
     }
 
     @Step("Отправляем Api запрос POST /api/auth/login для логина пользователя")
-    public ValidatableResponse postLoginUserRequest(String baseUrl, LoginUserRequest loginUserRequestBody, String loginUserHandle){
+    public ValidatableResponse postLoginUserRequest(LoginUserRequest loginUserRequestBody, String loginUserHandle){
         return given()
-                .contentType(ContentType.JSON)
-                .baseUri(baseUrl)
+                .spec(RequestSpec.baseSpec())
                 .body(loginUserRequestBody)
                 .when()
                 .post(loginUserHandle)
@@ -63,18 +59,18 @@ private String userInfoHandle = "/api/auth/user";
     @Step("Оправляем запрос на Api запрос POST /api/auth/login для логина пользователя и получаем ответ")
     public ValidatableResponse loginUser(String email, String password){
         LoginUserRequest loginUserRequestBody = loginUserRequestBody(email, password);
-        return postLoginUserRequest(baseUrl, loginUserRequestBody, loginUserHandle);
+        return postLoginUserRequest(loginUserRequestBody, loginUserHandle);
     }
 
 
-    @Step("Отправляем Api запрос DELETE /api/auth/user для удаления пользователя")
+    @Step("Формируем Api запрос DELETE /api/auth/user для удаления пользователя")
     public  ValidatableResponse deleteDeleteUserRequest(String accessToken){
-        return given()
-                .headers(
-                        "Authorization", accessToken,
-                        "Content-Type", ContentType.JSON
-                        )
-                .baseUri(baseUrl)
+        var requestSpec = given()
+                .spec(RequestSpec.baseSpec());
+        if (accessToken != null) {
+            requestSpec.header("Authorization", accessToken);
+        }
+        return requestSpec
                 .when()
                 .delete(userInfoHandle)
                 .then();

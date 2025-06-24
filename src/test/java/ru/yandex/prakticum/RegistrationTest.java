@@ -14,8 +14,9 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import ru.yandex.prakticum.pageobjects.LoginStellarBurgersPage;
 import ru.yandex.prakticum.pageobjects.MainStellarBurgersPage;
-import ru.yandex.prakticum.pageobjects.OrderFeedStellarBurgerPage;
 import ru.yandex.prakticum.pageobjects.RegistrationStellarBurgerPage;
+import ru.yandex.prakticum.pageobjects.StellarBurgerPageConfig;
+import ru.yandex.prakticum.steps.RequestSpec;
 import ru.yandex.prakticum.steps.UserSteps;
 
 import java.time.Duration;
@@ -27,7 +28,6 @@ public class RegistrationTest {
     private LoginStellarBurgersPage loginStellarBurgersPage;
     private MainStellarBurgersPage mainStellarBurgersPage;
     private RegistrationStellarBurgerPage registrationStellarBurgerPage;
-    private String baseUrl = "https://stellarburgers.nomoreparties.site";
     private UserSteps userSteps;
     private String email;
     private String password;
@@ -81,7 +81,7 @@ public class RegistrationTest {
 
     @Step("Открываем браузер и домашнюю страницу Stellar Burger")
     public void openingBrowser(){
-        driver.get(baseUrl);
+        driver.get(StellarBurgerPageConfig.getBaseUrl());
     }
 
     @Step("Переход в окно личного кабинета пользователя")
